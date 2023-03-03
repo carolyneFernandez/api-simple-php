@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+	
+	<title>Mon tableau de bord</title>
+	<link rel="stylesheet" href="css/index.css">
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.2/css/jquery.dataTables.css">
+
+</head>
+<body>
+	<header class="header">
+		<a href="/public/index.html" class="logo"><img src="logo.png" alt="Flowers in Chania" height="50"></a>
+	</header>
+
+	<div class="title">
+
+		<span>OWNER LIST</span>
+		<button id="btn_new_owner" onclick="viewmodal()">New owner</button>
+	</div>
+	
+	<table id="owner-table" class="display">
+		<thead>
+			<tr>
+			<th>ID</th>
+			<th>NAME</th>
+			<th>LASTNAME</th>
+			<th>PHONE</th>
+			<th>DATE CREATION</th>
+			<th>ACTION</th>
+			</tr>
+		</thead>
+		<tbody>
+		</tbody>
+	</table>
+
+	<!-- El modal -->
+	<div id="modal_base" class="modal">
+		<div class="modal-content">
+			<div class="modal-header">
+                <h5 class="modal-title" id="title_modal">NEW OWNER</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+		
+			<form id="form_modal_base" method="POST">
+				<div>
+					<div class="form-group">
+						<label for="name">Name</label>
+						<input type="text" class="form-control" id="name" name="name">
+					</div>
+					<div class="form-group">
+						<label for="lastname">Lastname</label>
+						<input type="text" class="form-control" id="lastname" name="lastname">
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label for="phone">Phone</label>
+					<input type="number" class="form-control" id="phone" name="phone">
+				</div>
+		
+			</form>
+			<p id="mensaje-error"></p>
+			<div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="post_new_owner">Envoyer</button>
+            </div>
+
+		</div>
+	</div>
+
+</body>
+</html>
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.13.2/js/jquery.dataTables.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+
+<script src="js/owner.js"></script>
+
+<script>
+	
+	$(document).on('click', '.view_animal', function() {
+		var ownerId = $(this).data('id');
+		 // Redirigir a otra página pasando el valor de 'ownerId' en la URL
+		 window.location.href = 'animal.html?owner_id=' + ownerId;
+	});
+
+	$(document).ready(function() {
+		$('#owner-table').dataTable();
+
+		//creation de table
+		getOwner();
+
+		$("tbody").on("click", ".delete-btn", function(event) {
+			deleteOwner($(this));
+		});
+		
+		$("#post_new_owner").click(function() {
+			newOwner();
+		});
+
+		$(".view_animal").click(function() {
+			var ownerId = $(this).data('id');
+		});
+
+
+	});
+	
+</script>

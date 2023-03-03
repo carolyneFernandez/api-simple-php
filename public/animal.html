@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Mon tableau de bord</title>
+	<link rel="stylesheet" href="css/index.css">
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.2/css/jquery.dataTables.css">
+	<meta charset="UTF-8">
+
+</head>
+<body>
+	<header class="header">
+		<a href="/public/index.html" class="logo"><img src="logo.png" alt="Flowers in Chania" height="50"></a>
+	</header>
+
+	<div class="title">
+		<button onclick="history.back()"><i class="fa fa-arrow-left"></i></button>
+		<span>ANIMALS LIST  </span> <span id="owner"></span>
+		<button id="btn_new_animal" onclick="viewmodal()">New animal</button>
+
+	</div>
+	<div class="alert">Aucune donnée. Vous pouvez ajouter des nouvelles données</div>
+
+	<table id="animal-table" class="display">
+		<thead>
+			<tr>
+				<th>ID</th>
+                <th>OWNER NAME</th>
+                <th>NAME</th>
+                <th>TYPE</th>
+                <th></th>
+			</tr>
+		</thead>
+		<tbody>
+		</tbody>
+	</table>
+
+	<!-- El modal -->
+	<div id="modal_base" class="modal">
+		<div class="modal-content">
+			<div class="modal-header">
+                <h5 class="modal-title" id="title_modal">NEW ANIMAL</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+		
+			<form id="form_modal_base">
+				<div>
+					<div class="form-group">
+						<label for="name">NAME</label>
+						<input type="text" step="any"  class="form-control" id="name" name="name">
+					</div>
+					<div class="form-group">
+						<label for="type">TYPE</label>
+						<input type="text" class="form-control" id="type" name="type">
+					</div>
+				</div>
+			</form>
+			<p id="mensaje-error"></p>
+			<div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="new_animal">Envoyer</button>
+            </div>
+
+		</div>
+	</div>
+
+</body>
+</html>
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.13.2/js/jquery.dataTables.js"></script>
+<script src="js/animal.js"></script>
+
+<script>
+	var queryString = window.location.search;
+	var urlParams = new URLSearchParams(queryString);
+	var ownerId = urlParams.get('owner_id')?urlParams.get('owner_id'):"";
+	var table = $('#animal-table').DataTable();
+
+	$(document).on('click', '.delete-btn', function() {
+		var idAnimal = $(this).data("id");
+		deleteAnimal(ownerId,idAnimal,$(this));
+
+	});
+
+
+	$(document).ready(function() {
+
+		$("#date").val(new Date().toJSON().slice(0,19));
+		
+		getAnimal(ownerId);
+		
+		$("#new_animal").click(function() {
+			newAnimal(ownerId);
+		});
+
+
+	});
+
+
+</script>
